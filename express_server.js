@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 8023; // default port 8080
+const PORT = 8025; // default port 8080
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -34,7 +34,9 @@ app.get("/urls/new", (req, res) => {
     res.render("urls_new");
   });
 app.get("/urls/:shortURL", (req, res) => {
-  const templateVars = { shortURL: req.params.shortURL, longURL:` http://localhost:8080/urls/b2xVn2` };
+  const shortURL = req.params.shortURL;
+  const longURL = urlDatabase[shortURL];
+  let templateVars = { shortURL:shortURL, longURL:longURL};
   res.render("urls_show", templateVars);
 });
 
@@ -45,8 +47,7 @@ app.get("/set", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   //console.log(req);
   const shortURL = req.params.shortURL;
-    const longURL = urlDatabase[shortURL];
-    console.log(longURL);
+  const longURL = urlDatabase[shortURL];
   res.redirect(longURL);
 });
 
@@ -55,7 +56,7 @@ app.post("/urls", (req, res) => {
   //console.log(generateRandomString());
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body.longURL;
-  console.log(urlDatabase);
+  //console.log(urlDatabase);
   res.redirect(`/urls/${shortURL}`);         // Respond with 'Ok' (we will replace this)
 });
 app.post('/urls/:shortURL/delete', (req, res) => {
@@ -63,6 +64,21 @@ app.post('/urls/:shortURL/delete', (req, res) => {
   delete urlDatabase[shortURL];
   res.redirect('/urls');
 });
+app.get('/urls/:id', (req, res) => {
+  const shortURL = req.params.id;
+  console.log("hello",shortURL);
+  const longURL = urlDatabase[shortURL];
+  //console.log(longURL);
+  res.redirect(`/urls/${shortURL}`);
+});
+app.post('/urls/:id/edit',(req, res) =>{
+  console.log('req.body', req.body)
+  const id = req.params.id;
+  console.log("hii",id);
+  const newURL = req.body.longURL;
+  urlDatabase[id] = newURL;
+  res.redirect('/urls');
+})
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
