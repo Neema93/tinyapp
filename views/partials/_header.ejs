@@ -21,6 +21,19 @@
               <a class="nav-item nav-link" href="/urls">My URLs</a>
               <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
             </div>
+            
+          </div>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+           
+            <% if(username){%>
+              <%= username %>
+              <form method="POST" action="/logout">
+              <button type="submit" class="btn btn-outline-dark" >sign out</button></form>
+              <% } else {%>
+            <form method="POST" action="/login">
+            <input name="username"/>
+            <button type="submit" class="btn btn-outline-dark" >sign in</button></form>
+            <% } %>
           </div>
         </nav>
       </header>
