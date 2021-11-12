@@ -25,15 +25,11 @@
           </div>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
            
-            <% if(username){%>
-              <%= username %>
+            
+              <%= user_id %>
               <form method="POST" action="/logout">
-              <button type="submit" class="btn btn-outline-dark" >sign out</button></form>
-              <% } else {%>
-            <form method="POST" action="/login">
-            <input name="username"/>
-            <button type="submit" class="btn btn-outline-dark" >sign in</button></form>
-            <% } %>
+              <button type="submit" class="btn btn-outline-dark" >Logout</button></form>
+              
           </div>
         </nav>
       </header>
